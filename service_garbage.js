@@ -56,5 +56,35 @@ app.get('/bank/:id', async(req, res, next)=>{
     }
 });
 
+app.get('/customers/', async(req, res, next)=>{
+    try {
+        var rs = await model.getCustomer(db);
+        res.send(rs)
+    } catch (error) {
+        res.send("error");
+    }
+});
+
+app.put('/customer/:id', async(req, res, next)=>{
+    var id = req.params.id;
+    var company = req.body.company;
+    var address = req.body.address;
+
+    if(id && company && address){
+        var data = {
+            company : company,
+            address : address
+        };
+      
+    }
+   
+    try {
+        var rs = await model.updateCompany(db,id,data);
+        res.send({ok:true});
+    } catch (error) {
+        res.send({ok:false,error:error.message});
+    }
+});
+
 
 app.listen(3000);
